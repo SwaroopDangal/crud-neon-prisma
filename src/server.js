@@ -2,15 +2,21 @@ import express from 'express';
 import { config } from 'dotenv';
 import { connectDB } from './config/db.js';
 import { disconnectDB } from './config/db.js';
+import movieRoutes from './routes/movieRoute.js';
+import authRoutes from './routes/authRoutes.js';
 
 config();
 connectDB();
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+
+app.use("/movies", movieRoutes);
+app.use("/auth", authRoutes);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
